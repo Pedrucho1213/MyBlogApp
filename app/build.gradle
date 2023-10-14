@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
-}
+    id("com.google.gms.google-services")}
 
 android {
     namespace 'com.example.myblogapp'
@@ -44,9 +44,19 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.androidx.test.ext.junit
     androidTestImplementation libs.espresso.core
+
+    // Image loader
     implementation libs.picasso
+
+    // network request libraries
     implementation libs.retrofit.v290
     implementation libs.converter.gson
     implementation libs.kotlinx.coroutines.android
     implementation libs.converter.moshi
+
+    // Firebase library
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
+    implementation("com.google.firebase:firebase-firestore-ktx")
+
 }
