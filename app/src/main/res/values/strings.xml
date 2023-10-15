@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">MyBlogApp</string>
+    <string name="logo_app">logo app</string>
+    <string name="login">Login</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="new_post">New Post</string>
+    <string name="publish_post">Publish post</string>
+    <string name="content">Content</string>
+    <string name="title">Title</string>
+    <string name="please_provide_your_credentials">Please provide your credentials</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="create_an_account">Create an account</string>
 </resources>
