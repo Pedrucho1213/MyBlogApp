@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.myblogapp.model.Posts
 import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 class Repository {
 
@@ -11,17 +14,15 @@ class Repository {
     private val mutableData = MutableLiveData<MutableList<Posts>>()
 
     fun getUserData(): LiveData<MutableList<Posts>> {
-        fireStore.collection("Posts").get().addOnSuccessListener {
+        fireStore.collection("Posts").get().addOnSuccessListener {documents ->
             val listPosts = mutableListOf<Posts>()
-            for (document in it) {
-                val id =
-                    document.getString("id")
+            for (document in documents) {
                 val title = document.getString("title")
                 val authorName = document.getString("authorName")
                 val authorId = document.getString("authorId")
                 val content = document.getString("content")
-                val date = document.getString("date")
-                val post = Posts(id, title, authorName, authorId, content, date)
+                val timeStamp = document.getTimestamp("date")
+                val post = Posts(title, authorName, authorId, content,timeStamp)
                 listPosts.add(post)
             }
             mutableData.value = listPosts
@@ -36,6 +37,11 @@ class Repository {
                 getUserData()
             }
         return mutableData
+    }
+
+    private fun formatDate(date: Date): String {
+        val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        return format.format(date)
     }
 
 }

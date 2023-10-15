@@ -1,13 +1,13 @@
 package com.example.myblogapp.view
 
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.example.myblogapp.R
 import com.example.myblogapp.databinding.ActivitySignUpBinding
-import com.example.myblogapp.viewModel.PostViewModel
+import com.example.myblogapp.domain.data.PreferenceManager
 import com.example.myblogapp.viewModel.SignUpViewModel
 
 class SignUpActivity : AppCompatActivity() {
@@ -33,8 +33,12 @@ class SignUpActivity : AppCompatActivity() {
             if (email.isNotEmpty() && pass.isNotEmpty()) {
                 viewModel.registerWithEmail(email, pass).observe(this) {
                     if (it) {
+                        PreferenceManager.saveName(
+                            this,
+                            binding.fullNameTxt.editText?.text.toString()
+                        )
                         Toast.makeText(this, "Usuario registrado", Toast.LENGTH_SHORT).show()
-                        val i = Intent(applicationContext, LoginActivity::class.java)
+                        val i = Intent(applicationContext, SignInActivity::class.java)
                         startActivity(i)
                     }
                 }

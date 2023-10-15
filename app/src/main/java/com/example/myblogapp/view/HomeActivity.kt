@@ -6,9 +6,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myblogapp.adapters.PostsAdapter
 import com.example.myblogapp.databinding.ActivityHomeBinding
+import com.example.myblogapp.domain.data.PreferenceManager
 import com.example.myblogapp.model.Posts
 import com.example.myblogapp.view.interfaces.OnPostSavedListener
 import com.example.myblogapp.viewModel.PostViewModel
+import com.google.firebase.Timestamp
+import java.util.Date
 
 class HomeActivity : AppCompatActivity(), OnPostSavedListener {
 
@@ -26,13 +29,17 @@ class HomeActivity : AppCompatActivity(), OnPostSavedListener {
     }
 
     override fun onPostSaved(title: String, content: String) {
-        val post = Posts("1", title, "Jose", "3", content, "16/02/1999")
+        val name = PreferenceManager.getName(this).toString()
+        val uid = PreferenceManager.getUID(this)
+        val time = Timestamp.now()
+        val post = Posts(title, name, uid, content, time)
         viewModel.sendData(post)
         observeData()
     }
+
     private fun observeData() {
         viewModel.fetchPostData().observe(this) {
-            posts = it
+            posts = it.sortedByDescending { post -> post.date}.toMutableList()
             initRecyclerView()
         }
     }

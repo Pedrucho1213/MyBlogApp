@@ -12,11 +12,13 @@ lifecycle-viewmodel = "2.6.2"
 material = "1.9.0"
 constraintlayout = "2.1.4"
 picasso = "2.71828"
+preference-ktx = "1.2.1"
 squareup-retrofit = "2.9.0"
 
 [libraries]
 androidx-lifecycle-livedata = { module = "androidx.lifecycle:lifecycle-livedata", version.ref = "lifecycle-viewmodel" }
 androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "lifecycle-viewmodel" }
+androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preference-ktx" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "squareup-retrofit" }
 converter-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "squareup-retrofit" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }

@@ -61,5 +61,6 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation libs.firebase.auth
+    implementation libs.androidx.preference.ktx
 
 }

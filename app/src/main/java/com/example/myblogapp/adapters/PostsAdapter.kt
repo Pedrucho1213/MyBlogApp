@@ -20,7 +20,7 @@ class PostsAdapter(private val posts: List<Posts>, private val context: Context)
 
     override fun onBindViewHolder(holder: PostsViewHolder, position: Int) {
         val post = posts[position]
-        holder.bindView(post, context, position)
+        holder.bindView(post)
     }
 
 
