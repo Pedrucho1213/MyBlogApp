@@ -14,4 +14,8 @@
     <string name="create_an_account">Create an account</string>
     <string name="search_by_author_title_or_content">Search by author, title or content</string>
     <string name="search">Search</string>
+    <string name="title_dialog">Are you sure ?</string>
+    <string name="body_dialog">Are you sure you want to log out ?</string>
+    <string name="accept">Yes</string>
+    <string name="decline">Cancel</string>
 </resources>

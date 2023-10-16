@@ -15,6 +15,7 @@ import com.example.myblogapp.model.Posts
 import com.example.myblogapp.view.interfaces.OnPostSavedListener
 import com.example.myblogapp.viewModel.PostViewModel
 import com.example.myblogapp.viewModel.SignInViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.Timestamp
 
 class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
@@ -86,14 +87,27 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
     }
 
     private fun handleLogoutButton(): Boolean {
-        viewModel.signOut().observe(this) {
-            if (it) {
-                PreferenceManager.logOut(this)
-                val intent = Intent(this, SignInActivity::class.java)
-                startActivity(intent)
-                finish()
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle(resources.getString(R.string.title_dialog))
+            .setMessage(resources.getString(R.string.body_dialog))
+
+            .setNegativeButton(resources.getString(R.string.decline)) { dialog, which ->
+
             }
-        }
+            .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
+                viewModel.signOut().observe(this) {
+                    if (it) {
+                        PreferenceManager.logOut(this)
+                        val intent = Intent(this, SignInActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                }
+            }
+            .show()
+
+
         return true
     }
 
