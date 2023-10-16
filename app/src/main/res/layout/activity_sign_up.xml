@@ -8,9 +8,10 @@
 
     <ImageButton
         android:id="@+id/back_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_margin="20dp"
+        android:background="@color/white"
         android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -29,12 +30,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create Account" />
+            android:text="@string/create_account"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Please fill the input below here" />
+            android:text="@string/please_fill_the_input_below_here"
+            android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
+            android:textStyle="normal" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/full_name_txt"
@@ -42,7 +47,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:hint="FULL NAME">
+            android:layout_marginBottom="10dp"
+            android:hint="@string/full_name">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -56,7 +62,8 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="EMAIL">
+            android:layout_marginBottom="10dp"
+            android:hint="@string/email_field">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -70,7 +77,8 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="PASSWORD">
+            android:layout_marginBottom="10dp"
+            android:hint="@string/password_field">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -84,7 +92,8 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="CONFIRM PASSWORD">
+            android:layout_marginBottom="10dp"
+            android:hint="@string/confirm_password_field">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -98,7 +107,7 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SIGN UP" />
+            android:text="@string/sign_up_button" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

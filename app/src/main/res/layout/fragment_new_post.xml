@@ -17,7 +17,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/new_post" />
+        android:text="@string/new_post"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/title_txt"
@@ -26,8 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:hint="@string/title"
-        app:counterEnabled="true"
         android:nextFocusDown="@id/content_txt"
+        app:counterEnabled="true"
         app:counterMaxLength="15">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -46,8 +48,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:hint="@string/content"
-        app:counterEnabled="true"
         android:nextFocusDown="@id/save_btn"
+        app:counterEnabled="true"
         app:counterMaxLength="255">
 
         <com.google.android.material.textfield.TextInputEditText

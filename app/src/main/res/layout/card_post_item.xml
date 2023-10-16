@@ -26,18 +26,18 @@
                 android:id="@+id/author_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ali Connors" />
+                android:text="@string/ali_connors" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" --- " />
+                android:text="@string/divider" />
 
             <TextView
                 android:id="@+id/date_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="25 mins ago" />
+                android:text="@string/_25_mins_ago" />
         </LinearLayout>
 
         <TextView
@@ -45,20 +45,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Brunch this weekend ?"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:text="@string/brunch_this_weekend"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/content_txt"
             android:layout_width="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_height="wrap_content"
-            android:text="La alegría de vivir es el mayor regalo que podemos dar y recib..." />
+            android:text="@string/la_alegr_a_de_vivir_es_el_mayor_regalo_que_podemos_dar_y_recib" />
 
         <TextView
             android:id="@+id/content_full_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:visibility="gone"/>
 
     </LinearLayout>

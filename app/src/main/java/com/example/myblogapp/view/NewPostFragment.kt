@@ -37,13 +37,7 @@ class NewPostFragment : BottomSheetDialogFragment() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                if ((s?.length ?: 0) > 15) {
-                    binding.titleEvent.error = "The title must be no longer than 15 characters"
-                    binding.saveBtn.isEnabled = false
-                } else {
-                    binding.titleEvent.error = null
-                    binding.saveBtn.isEnabled = true
-                }
+                validateTitle(s)
             }
         })
 
@@ -57,13 +51,7 @@ class NewPostFragment : BottomSheetDialogFragment() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                if ((s?.length ?: 0) > 255) {
-                    binding.contentEvent.error = "The content must be no longer than 255 characters"
-                    binding.saveBtn.isEnabled = false
-                } else {
-                    binding.contentEvent.error = null
-                    binding.saveBtn.isEnabled = true
-                }
+                validateContent(s)
             }
         })
 
@@ -73,6 +61,28 @@ class NewPostFragment : BottomSheetDialogFragment() {
 
         binding.saveBtn.setOnClickListener {
             saveBtn()
+        }
+    }
+
+    private fun validateTitle(s: CharSequence?) {
+        val maxLength = 15
+        if ((s?.length ?: 0) > maxLength) {
+            binding.titleEvent.error = "The title must be no longer than $maxLength characters"
+            binding.saveBtn.isEnabled = false
+        } else {
+            binding.titleEvent.error = null
+            binding.saveBtn.isEnabled = true
+        }
+    }
+
+    private fun validateContent(s: CharSequence?) {
+        val maxLength = 255
+        if ((s?.length ?: 0) > maxLength) {
+            binding.contentEvent.error = "The content must be no longer than $maxLength characters"
+            binding.saveBtn.isEnabled = false
+        } else {
+            binding.contentEvent.error = null
+            binding.saveBtn.isEnabled = true
         }
     }
 
