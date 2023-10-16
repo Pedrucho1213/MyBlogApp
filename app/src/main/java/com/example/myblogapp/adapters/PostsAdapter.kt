@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myblogapp.R
 import com.example.myblogapp.model.Posts
 
-class PostsAdapter(private val posts: List<Posts>, private val context: Context) :
+class PostsAdapter(private var posts: List<Posts>, private val context: Context) :
     RecyclerView.Adapter<PostsViewHolder>() {
 
     private val dataList = mutableListOf<Posts>()
@@ -21,6 +21,11 @@ class PostsAdapter(private val posts: List<Posts>, private val context: Context)
     override fun onBindViewHolder(holder: PostsViewHolder, position: Int) {
         val post = posts[position]
         holder.bindView(post)
+    }
+
+    fun updateData(filteredPosts: List<Posts>) {
+        posts = filteredPosts
+        notifyDataSetChanged()
     }
 
 

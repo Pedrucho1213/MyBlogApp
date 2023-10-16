@@ -40,6 +40,7 @@ class SignUpActivity : AppCompatActivity() {
                         Toast.makeText(this, "Usuario registrado", Toast.LENGTH_SHORT).show()
                         val i = Intent(applicationContext, SignInActivity::class.java)
                         startActivity(i)
+                        finish()
                     }
                 }
             }

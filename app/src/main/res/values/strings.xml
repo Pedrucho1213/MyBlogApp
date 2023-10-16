@@ -12,4 +12,6 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="create_an_account">Create an account</string>
+    <string name="search_by_author_title_or_content">Search by author, title or content</string>
+    <string name="search">Search</string>
 </resources>

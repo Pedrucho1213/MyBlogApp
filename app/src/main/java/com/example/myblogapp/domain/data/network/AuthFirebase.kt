@@ -16,6 +16,14 @@ class AuthFirebase() {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val signUpStatus = MutableLiveData<Boolean>()
     private val signInStatus = MutableLiveData<Task<AuthResult>>()
+    private val signOut = MutableLiveData<Boolean>()
+
+
+    fun sigOut(): MutableLiveData<Boolean> {
+        auth.signOut()
+        signOut.value = true
+        return signOut
+    }
 
     fun registerUserWithEmail(email: String, password: String): MutableLiveData<Boolean> {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {

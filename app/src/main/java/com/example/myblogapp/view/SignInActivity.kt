@@ -1,6 +1,5 @@
 package com.example.myblogapp.view
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -14,7 +13,6 @@ import com.example.myblogapp.viewModel.SignInViewModel
 class SignInActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignInBinding
-    private lateinit var context: Context
     private val viewModel by lazy {
         ViewModelProvider(this)[SignInViewModel::class.java]
     }
@@ -24,7 +22,22 @@ class SignInActivity : AppCompatActivity() {
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setListeners()
-        context = this
+        verifyLogin()
+    }
+
+    private fun verifyLogin() {
+        val uid = PreferenceManager.getUID(this).toString()
+        if (uid.isEmpty()) {
+            Toast.makeText(
+                this,
+                "Bienvenido ${PreferenceManager.getName(this)}",
+                Toast.LENGTH_SHORT
+            ).show()
+            val i = Intent(applicationContext, HomeActivity::class.java)
+            startActivity(i)
+            finish()
+
+        }
     }
 
     private fun setListeners() {
@@ -32,6 +45,7 @@ class SignInActivity : AppCompatActivity() {
         binding.signUpBtn.setOnClickListener {
             val i = Intent(applicationContext, SignUpActivity::class.java)
             startActivity(i)
+
         }
 
         binding.loginBtn.setOnClickListener {
@@ -51,9 +65,14 @@ class SignInActivity : AppCompatActivity() {
                     PreferenceManager.saveEmail(this, mail)
                     PreferenceManager.saveUID(this, uid)
 
-                    Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        "Bienvenido ${PreferenceManager.getName(this)}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     val i = Intent(applicationContext, HomeActivity::class.java)
                     startActivity(i)
+                    finish()
                 } else {
                     Toast.makeText(this, "No se encontró usuario", Toast.LENGTH_LONG).show()
                 }

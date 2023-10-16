@@ -12,4 +12,10 @@
         app:showAsAction="never"
         android:icon="@drawable/ic_post_gallery"
         android:title="My Posts" />
+
+    <item
+        android:id="@+id/logout_btn"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_exit_to_app_24"
+        android:title="Log Out"/>
 </menu>

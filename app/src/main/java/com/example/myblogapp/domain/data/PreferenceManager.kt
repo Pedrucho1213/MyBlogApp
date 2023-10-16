@@ -45,5 +45,16 @@ object PreferenceManager {
         return sharedPreferences.getString(KEY_UID, null)
     }
 
+    fun logOut(context: Context) {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val editor = sharedPreferences.edit()
+        editor.remove(KEY_UID)
+        editor.remove(KEY_EMAIL)
+        editor.remove(KEY_NAME)
+        editor.apply()
+        editor.clear()
+
+    }
+
 
 }
