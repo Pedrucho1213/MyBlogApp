@@ -48,6 +48,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
         getAllData()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        showLogoutConfirmDialog()
+    }
     private fun getAllData() {
         posts.clear()
         viewModel.fetchPostData().observe(this) {

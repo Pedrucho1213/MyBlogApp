@@ -42,21 +42,25 @@ class SignUpActivity : AppCompatActivity() {
     private fun registerUser() {
         val email = binding.emailTxt.editText?.text.toString()
         val pass = binding.confirmPassTxt.editText?.text.toString()
-        viewModel.registerWithEmail(email, pass).observe(this) {
-            if (it.isSuccessful) {
-                saveUserData(it.result.user?.uid.toString())
+        viewModel.registerWithEmail(email, pass).observe(this) { result ->
+            if (result.isSuccessful) {
+                saveUserData(result.result.user?.uid.toString())
                 makeToast("Registered user")
-
             } else {
-                try {
-                    throw it.exception!!
-                } catch (e: FirebaseAuthInvalidUserException) {
-                    makeToast("The user is already registered")
-                    Log.i("Error", "The user is already registered")
-                } catch (e: Exception) {
-                    makeToast("An error has occurred")
-                    Log.i("Error", "An error has occurred ${e.toString()}")
-                }
+                handleRegistrationError(result.exception)
+            }
+        }
+    }
+
+    private fun handleRegistrationError(exception: Exception?) {
+        when (exception) {
+            is FirebaseAuthInvalidUserException -> {
+                makeToast("The user is already registered")
+                Log.i("Error", "The user is already registered")
+            }
+            else -> {
+                makeToast("An error has occurred")
+                Log.i("Error", "An error has occurred ${exception.toString()}")
             }
         }
     }
@@ -70,21 +74,30 @@ class SignUpActivity : AppCompatActivity() {
         val email = binding.emailTxt.editText?.text.toString()
         val fullName = binding.fullNameTxt.editText?.text.toString()
         val user = User(uid, fullName, email)
-        viewModel.saveUserData(user).observe(this) {
-            if (it.isSuccessful) {
-                PreferenceManager.saveUID(this, uid)
-                PreferenceManager.saveName(this, fullName)
-                PreferenceManager.saveEmail(this, email)
-                Toast.makeText(
-                    this,
-                    "Bienvenido ${PreferenceManager.getName(this)}",
-                    Toast.LENGTH_SHORT
-                ).show()
-                val i = Intent(applicationContext, SignInActivity::class.java)
-                startActivity(i)
-                finish()
+        viewModel.saveUserData(user).observe(this) { result ->
+            if (result.isSuccessful) {
+                saveUserPreferences(uid, fullName, email)
+                showWelcomeMessage()
+                navigateToSignInActivity()
             }
         }
+    }
+
+    private fun saveUserPreferences(uid: String, fullName: String, email: String) {
+        PreferenceManager.saveUID(this, uid)
+        PreferenceManager.saveName(this, fullName)
+        PreferenceManager.saveEmail(this, email)
+    }
+
+    private fun showWelcomeMessage() {
+        val fullName = PreferenceManager.getName(this)
+        Toast.makeText(this, "Bienvenido $fullName", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun navigateToSignInActivity() {
+        val intent = Intent(applicationContext, SignInActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun validateInputs() {
@@ -127,6 +140,7 @@ class SignUpActivity : AppCompatActivity() {
             registerUser()
         }
     }
+
 
     private fun isValidEmail(email: String): Boolean {
         val pattern = Patterns.EMAIL_ADDRESS
