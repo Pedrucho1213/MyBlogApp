@@ -15,10 +15,22 @@ class PostsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     fun bindView(post: Posts) {
         binding.titleTxt.text = post.title
-        binding.contentTxt.text = post.content
+        binding.contentTxt.text = post.content?.take(70)
+        binding.contentFullTxt.text = post.content
         binding.dateTxt.text = getTimeAgoString(post.date)
         binding.authorTxt.text = post.authorName
+
+        itemView.setOnClickListener {
+            if (binding.contentFullTxt.visibility == View.GONE) {
+                binding.contentTxt.visibility = View.GONE
+                binding.contentFullTxt.visibility = View.VISIBLE
+            } else {
+                binding.contentTxt.visibility = View.VISIBLE
+                binding.contentFullTxt.visibility = View.GONE
+            }
+        }
     }
+
     private fun getTimeAgoString(timestamp: Timestamp?): String {
         val currentTimeMillis = System.currentTimeMillis()
         val timestampMillis = timestamp?.toDate()?.time
