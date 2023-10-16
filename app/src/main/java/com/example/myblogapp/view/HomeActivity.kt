@@ -1,9 +1,12 @@
 package com.example.myblogapp.view
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
-import android.view.View
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,9 +17,9 @@ import com.example.myblogapp.domain.data.PreferenceManager
 import com.example.myblogapp.model.Posts
 import com.example.myblogapp.view.interfaces.OnPostSavedListener
 import com.example.myblogapp.viewModel.PostViewModel
-import com.example.myblogapp.viewModel.SignInViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.Timestamp
+
 
 class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
     androidx.appcompat.widget.SearchView.OnQueryTextListener, OnPostSavedListener {
@@ -29,6 +32,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        handleInternetConnection()
         setEvents()
         getAllData()
 
@@ -128,6 +132,38 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
         adapter = PostsAdapter(posts, this)
         binding.postsRv.layoutManager = LinearLayoutManager(this)
         binding.postsRv.adapter = adapter
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo: NetworkInfo? = connectivityManager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isConnected
+    }
+
+    private fun handleInternetConnection() {
+        if (isNetworkAvailable()) {
+            enableAddEntryOption()
+        } else {
+            disableAddEntryOption()
+            showDownloadedEntries()
+            showNoInternetMessage()
+        }
+    }
+
+    private fun enableAddEntryOption() {
+        binding.newPostBtn.isEnabled = true
+    }
+
+    private fun showDownloadedEntries() {
+        // Mostrar las entradas descargadas previamente
+    }
+
+    private fun disableAddEntryOption() {
+        binding.newPostBtn.isEnabled = false
+    }
+
+    private fun showNoInternetMessage() {
+        Toast.makeText(this, "No internet connection", Toast.LENGTH_LONG).show()
     }
 
     override fun onQueryTextSubmit(p0: String?): Boolean {

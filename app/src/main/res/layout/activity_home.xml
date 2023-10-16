@@ -48,6 +48,7 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
         android:contentDescription="new post"
+        android:enabled="true"
         android:text="Add new Post"
         app:icon="@drawable/ic_post_add_24"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"

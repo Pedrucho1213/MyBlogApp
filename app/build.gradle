@@ -1,7 +1,10 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
-    id("com.google.gms.google-services")}
+    id("com.google.gms.google-services")
+    id("kotlin-kapt")
+}
+
 
 android {
     namespace 'com.example.myblogapp'
@@ -56,11 +59,19 @@ dependencies {
 
     implementation libs.androidx.lifecycle.viewmodel
     implementation libs.androidx.lifecycle.livedata
-    // Firebase library
+    // Firebase firestore library
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
     implementation("com.google.firebase:firebase-firestore-ktx")
-    implementation libs.firebase.auth
     implementation libs.androidx.preference.ktx
+
+    // Firebase Authentification library
+    implementation libs.firebase.auth
+
+
+    // Romm library
+    implementation "androidx.room:room-runtime:2.4.0"
+    kapt "androidx.room:room-compiler:2.4.0"
+    kapt "com.google.devtools.ksp:symbol-processing-api:1.6.0-1.0.0"
 
 }
