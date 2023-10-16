@@ -3,6 +3,7 @@ package com.example.myblogapp.view
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.NetworkInfo
 import android.os.Bundle
 import android.widget.SearchView
@@ -65,7 +66,7 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
 
     private fun setEvents() {
         binding.newPostBtn.setOnClickListener {
-            NewPostFragment().show(supportFragmentManager, "new post")
+            showNewPostFragment()
         }
         binding.searchTxt.setOnQueryTextListener(this)
         binding.searchTxt.setIconifiedByDefault(false)
@@ -80,6 +81,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
         }
     }
 
+    private fun showNewPostFragment() {
+        NewPostFragment().show(supportFragmentManager, "new post")
+    }
+
     private fun handlePostsButton(): Boolean {
         getAllData()
         return true
@@ -91,7 +96,11 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
     }
 
     private fun handleLogoutButton(): Boolean {
+        showLogoutConfirmDialog()
+        return true
+    }
 
+    private fun showLogoutConfirmDialog() {
         MaterialAlertDialogBuilder(this)
             .setTitle(resources.getString(R.string.title_dialog))
             .setMessage(resources.getString(R.string.body_dialog))
@@ -100,27 +109,28 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
 
             }
             .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
-                viewModel.signOut().observe(this) {
-                    if (it) {
-                        PreferenceManager.logOut(this)
-                        val intent = Intent(this, SignInActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }
-                }
+                performLogout()
             }
             .show()
+    }
 
-
-        return true
+    private fun performLogout() {
+        viewModel.signOut().observe(this) {
+            if (it) {
+                PreferenceManager.logOut(this)
+                val intent = Intent(this, SignInActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
     }
 
     private fun performSearch(query: String) {
         if (query.isNotEmpty()) {
             val filteredPosts = posts.filter { post ->
-                post.title!!.contains(query, ignoreCase = true) ||
-                        post.content!!.contains(query, ignoreCase = true) ||
-                        post.authorName!!.contains(query, ignoreCase = true)
+                post.title?.contains(query, ignoreCase = true) ?: false ||
+                        post.content?.contains(query, ignoreCase = true) ?: false ||
+                        post.authorName?.contains(query, ignoreCase = true) ?: false
             }
             adapter.updateData(filteredPosts)
         } else {
@@ -136,8 +146,8 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
 
     private fun isNetworkAvailable(): Boolean {
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkInfo: NetworkInfo? = connectivityManager.activeNetworkInfo
-        return networkInfo != null && networkInfo.isConnected
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        return networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
     }
 
     private fun handleInternetConnection() {
