@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.myblogapp.databinding.ActivitySignUpBinding
 import com.example.myblogapp.domain.data.PreferenceManager
+import com.example.myblogapp.model.User
 import com.example.myblogapp.viewModel.SignUpViewModel
 
 class SignUpActivity : AppCompatActivity() {
@@ -28,21 +29,39 @@ class SignUpActivity : AppCompatActivity() {
     private fun setListeners() {
         validateInputs()
         binding.signUpBtn.setOnClickListener {
-            val email = binding.emailTxt.editText?.text.toString()
-            val pass = binding.confirmPassTxt.editText?.text.toString()
-            if (email.isNotEmpty() && pass.isNotEmpty()) {
-                viewModel.registerWithEmail(email, pass).observe(this) {
-                    if (it) {
-                        PreferenceManager.saveName(
-                            this,
-                            binding.fullNameTxt.editText?.text.toString()
-                        )
-                        Toast.makeText(this, "Usuario registrado", Toast.LENGTH_SHORT).show()
-                        val i = Intent(applicationContext, SignInActivity::class.java)
-                        startActivity(i)
-                        finish()
-                    }
+            registerUser()
+        }
+    }
+
+    private fun registerUser() {
+        val email = binding.emailTxt.editText?.text.toString()
+        val pass = binding.confirmPassTxt.editText?.text.toString()
+        if (email.isNotEmpty() && pass.isNotEmpty()) {
+            viewModel.registerWithEmail(email, pass).observe(this) {
+                if (it.isSuccessful) {
+                    saveUserData(it.result.user?.uid.toString())
+                    Toast.makeText(this, "Usuario registrado", Toast.LENGTH_SHORT).show()
+                    val i = Intent(applicationContext, SignInActivity::class.java)
+                    startActivity(i)
                 }
+            }
+        }
+    }
+
+    private fun saveUserData(uid: String) {
+        val email = binding.emailTxt.editText?.text.toString()
+        val fullName = binding.fullNameTxt.editText?.text.toString()
+        val user = User(uid, fullName, email)
+        viewModel.saveUserData(user).observe(this) {
+            if (it.isSuccessful) {
+                PreferenceManager.saveUID(this, uid)
+                PreferenceManager.saveName(this, fullName)
+                PreferenceManager.saveEmail(this, email)
+                Toast.makeText(
+                    this,
+                    "Bienvenido ${PreferenceManager.getName(this)}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

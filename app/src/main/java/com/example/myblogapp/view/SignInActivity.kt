@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.myblogapp.databinding.ActivitySignInBinding
 import com.example.myblogapp.domain.data.PreferenceManager
+import com.example.myblogapp.model.User
 import com.example.myblogapp.viewModel.SignInViewModel
 
 
@@ -56,26 +57,27 @@ class SignInActivity : AppCompatActivity() {
     private fun login() {
         val email = binding.emailTxt.editText?.text.toString()
         val pass = binding.passwordTxt.editText?.text.toString()
+
         if (email.isNotEmpty() && pass.isNotEmpty()) {
             viewModel.loginWithEmail(email, pass).observe(this) {
                 if (it.isSuccessful) {
-
-                    val mail = it.result.user?.email.toString()
-                    val uid = it.result.user?.uid.toString()
-                    PreferenceManager.saveEmail(this, mail)
-                    PreferenceManager.saveUID(this, uid)
-
-                    Toast.makeText(
-                        this,
-                        "Bienvenido ${PreferenceManager.getName(this)}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    getUserData(email)
                     val i = Intent(applicationContext, HomeActivity::class.java)
                     startActivity(i)
                     finish()
                 } else {
                     Toast.makeText(this, "No se encontró usuario", Toast.LENGTH_LONG).show()
                 }
+            }
+        }
+    }
+
+    private fun getUserData(email: String) {
+        viewModel.getCredentials(email).observe(this) {
+            if (it != null) {
+                PreferenceManager.saveUID(this, it.uid.toString())
+                PreferenceManager.saveName(this, it.fullName.toString())
+                PreferenceManager.saveEmail(this, email)
             }
         }
     }

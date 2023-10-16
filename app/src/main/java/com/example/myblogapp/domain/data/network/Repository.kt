@@ -12,8 +12,9 @@ import java.util.*
 class Repository {
 
     private val fireStore = FirebaseFirestore.getInstance()
-    private val mutableData = MutableLiveData<MutableList<Posts>>()
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val mutableData = MutableLiveData<MutableList<Posts>>()
+
 
 
     fun getAllData(): LiveData<MutableList<Posts>> {
@@ -52,7 +53,6 @@ class Repository {
             }
         return mutableData
     }
-
 
     fun sendPostData(post: Posts): LiveData<MutableList<Posts>> {
         fireStore.collection("Posts")
