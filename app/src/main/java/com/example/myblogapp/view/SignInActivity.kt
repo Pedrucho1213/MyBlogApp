@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.myblogapp.R
 import com.example.myblogapp.databinding.ActivitySignInBinding
 import com.example.myblogapp.domain.data.PreferenceManager
-import com.example.myblogapp.model.User
 import com.example.myblogapp.viewModel.SignInViewModel
 
 
@@ -29,18 +29,15 @@ class SignInActivity : AppCompatActivity() {
     private fun verifyLogin() {
         val isLoggedIn = PreferenceManager.getLogIn(this)
         if (isLoggedIn) {
-           redirectToHome()
+           redirectToHomePage()
         }
     }
 
-    private fun redirectToHome() {
-        Toast.makeText(
-            this,
-            "Bienvenido ${PreferenceManager.getName(this)}",
-            Toast.LENGTH_SHORT
-        ).show()
-        val i = Intent(applicationContext, HomeActivity::class.java)
-        startActivity(i)
+    private fun redirectToHomePage() {
+        val welcomeMessage = getString(R.string.welcome_message, PreferenceManager.getName(this))
+        Toast.makeText(this, welcomeMessage, Toast.LENGTH_SHORT).show()
+        val intent = Intent(applicationContext, HomeActivity::class.java)
+        startActivity(intent)
         finish()
     }
 
@@ -52,32 +49,32 @@ class SignInActivity : AppCompatActivity() {
         }
 
         binding.loginBtn.setOnClickListener {
-            login()
+            performLogin()
         }
     }
 
-    private fun login() {
+    private fun performLogin() {
         val email = binding.emailTxt.editText?.text.toString()
         val pass = binding.passwordTxt.editText?.text.toString()
 
         if (email.isNotEmpty() && pass.isNotEmpty()) {
-            viewModel.loginWithEmail(email, pass).observe(this) {
-                if (it.isSuccessful) {
+            viewModel.loginWithEmail(email, pass).observe(this) { result ->
+                if (result.isSuccessful) {
                     PreferenceManager.setLogIn(this, true)
                     getUserData(email)
-                    redirectToHome()
+                    redirectToHomePage()
                 } else {
-                    Toast.makeText(this, "No se encontró usuario", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, R.string.user_not_found, Toast.LENGTH_LONG).show()
                 }
             }
         }
     }
 
     private fun getUserData(email: String) {
-        viewModel.getCredentials(email).observe(this) {
-            if (it != null) {
-                PreferenceManager.saveUID(this, it.uid.toString())
-                PreferenceManager.saveName(this, it.fullName.toString())
+        viewModel.getCredentials(email).observe(this) { user ->
+            if (user != null) {
+                PreferenceManager.saveUID(this, user.uid.toString())
+                PreferenceManager.saveName(this, user.fullName.toString())
                 PreferenceManager.saveEmail(this, email)
             }
         }

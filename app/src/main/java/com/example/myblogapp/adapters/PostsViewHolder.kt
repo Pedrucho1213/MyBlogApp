@@ -51,7 +51,7 @@ class PostsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             minutes < 2 -> "a minute ago"
             minutes < 60 -> "$minutes minutes ago"
             hours < 2 -> "an hour ago"
-            else -> "unknown"
+            else -> "$hours hours ago"
         }
     }
 }
