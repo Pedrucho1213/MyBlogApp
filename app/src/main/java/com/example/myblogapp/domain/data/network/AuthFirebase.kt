@@ -30,15 +30,6 @@ class AuthFirebase() {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
             if (it.isSuccessful) {
                 signUpStatus.value = it
-            } else {
-                try {
-                    throw it.exception!!
-                } catch (e: FirebaseAuthInvalidUserException) {
-                    Log.i("Error", "The user is already registered")
-                } catch (e: Exception) {
-                    Log.i("Error", "An error has occurred ${e.toString()}")
-                }
-                signUpStatus.value = it
             }
         }
         return signUpStatus

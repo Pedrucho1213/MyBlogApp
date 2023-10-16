@@ -8,6 +8,20 @@ object PreferenceManager {
     private const val KEY_NAME = "fullName"
     private const val KEY_UID = "uid"
     private const val KEY_EMAIL = "email"
+    private const val KEY_LOGGED = "isLoggedIn"
+
+
+    fun setLogIn(context: Context, logged: Boolean) {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val editor = sharedPreferences.edit()
+        editor.putBoolean(KEY_LOGGED, logged)
+        editor.apply()
+    }
+
+    fun getLogIn(context: Context): Boolean{
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        return sharedPreferences.getBoolean(KEY_LOGGED, false)
+    }
 
     fun saveName(context: Context, name: String) {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
@@ -51,6 +65,7 @@ object PreferenceManager {
         editor.remove(KEY_UID)
         editor.remove(KEY_EMAIL)
         editor.remove(KEY_NAME)
+        editor.remove(KEY_LOGGED)
         editor.apply()
         editor.clear()
 

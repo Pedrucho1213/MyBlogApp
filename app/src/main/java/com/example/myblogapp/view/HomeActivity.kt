@@ -67,31 +67,34 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
 
         binding.bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.posts_btn -> {
-                    getAllData()
-                    return@setOnNavigationItemSelectedListener true
-                }
-
-                R.id.mypost_btn -> {
-                    getUserPosts()
-                    return@setOnNavigationItemSelectedListener true
-                }
-
-                R.id.logout_btn -> {
-                    viewModel.signOut().observe(this) {
-                        if (it) {
-                            PreferenceManager.logOut(this)
-                            val intent = Intent(this, SignInActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        }
-                    }
-                    return@setOnNavigationItemSelectedListener true
-                }
+                R.id.posts_btn -> handlePostsButton()
+                R.id.mypost_btn -> handleMyPostsButton()
+                R.id.logout_btn -> handleLogoutButton()
                 else -> false
             }
         }
+    }
 
+    private fun handlePostsButton(): Boolean {
+        getAllData()
+        return true
+    }
+
+    private fun handleMyPostsButton(): Boolean {
+        getUserPosts()
+        return true
+    }
+
+    private fun handleLogoutButton(): Boolean {
+        viewModel.signOut().observe(this) {
+            if (it) {
+                PreferenceManager.logOut(this)
+                val intent = Intent(this, SignInActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+        return true
     }
 
     private fun performSearch(query: String) {

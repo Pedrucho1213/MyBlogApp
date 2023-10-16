@@ -27,18 +27,21 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun verifyLogin() {
-        val uid = PreferenceManager.getUID(this).toString()
-        if (uid.isEmpty()) {
-            Toast.makeText(
-                this,
-                "Bienvenido ${PreferenceManager.getName(this)}",
-                Toast.LENGTH_SHORT
-            ).show()
-            val i = Intent(applicationContext, HomeActivity::class.java)
-            startActivity(i)
-            finish()
-
+        val isLoggedIn = PreferenceManager.getLogIn(this)
+        if (isLoggedIn) {
+           redirectToHome()
         }
+    }
+
+    private fun redirectToHome() {
+        Toast.makeText(
+            this,
+            "Bienvenido ${PreferenceManager.getName(this)}",
+            Toast.LENGTH_SHORT
+        ).show()
+        val i = Intent(applicationContext, HomeActivity::class.java)
+        startActivity(i)
+        finish()
     }
 
     private fun setListeners() {
@@ -46,7 +49,6 @@ class SignInActivity : AppCompatActivity() {
         binding.signUpBtn.setOnClickListener {
             val i = Intent(applicationContext, SignUpActivity::class.java)
             startActivity(i)
-
         }
 
         binding.loginBtn.setOnClickListener {
@@ -61,10 +63,9 @@ class SignInActivity : AppCompatActivity() {
         if (email.isNotEmpty() && pass.isNotEmpty()) {
             viewModel.loginWithEmail(email, pass).observe(this) {
                 if (it.isSuccessful) {
+                    PreferenceManager.setLogIn(this, true)
                     getUserData(email)
-                    val i = Intent(applicationContext, HomeActivity::class.java)
-                    startActivity(i)
-                    finish()
+                    redirectToHome()
                 } else {
                     Toast.makeText(this, "No se encontró usuario", Toast.LENGTH_LONG).show()
                 }
