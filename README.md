@@ -1,57 +1,55 @@
 # MyBlogApp
 
-MyBlogApp es una aplicación de Android que permite a los usuarios crear y guardar publicaciones en un blog. La aplicación está desarrollada en Kotlin y sigue la arquitectura de MVVM (Modelo-Vista-VistaModelo).
+MyBlogApp is an Android application that allows users to create and save blog posts. The application is developed in Kotlin and follows the MVVM (Model-View-ViewModel) architecture.
 
-## Características
+## Features
 
-- **Crear nuevas publicaciones**: Los usuarios pueden crear nuevas publicaciones proporcionando un título y contenido para la publicación.
-- **Validación de entrada**: La aplicación realiza validaciones en tiempo real para garantizar que el título no supere los 15 caracteres y que el contenido no supere los 255 caracteres.
-- **Guardar publicaciones**: Una vez que los usuarios completan la información de la publicación, pueden guardarla y se notificará a través de un listener cuando se haya guardado correctamente.
-- **Interfaz de usuario intuitiva**: La interfaz de usuario está diseñada utilizando XML para el desarrollo de vistas, siguiendo los principios de Material Design para ofrecer una experiencia de usuario moderna y coherente.
-- **Arquitectura MVVM**: La aplicación sigue la arquitectura MVVM, lo que permite una separación clara de responsabilidades y facilita el mantenimiento y la escalabilidad del código.
-- **Firebase Firestore**: Se utiliza Firebase Firestore como base de datos en la nube para almacenar y sincronizar las publicaciones de los usuarios.
-- **Firebase Authentication**: Se utiliza Firebase Authentication para permitir a los usuarios autenticarse en la aplicación utilizando su correo electrónico y contraseña.
-- **Comprobación de sesiones**: La aplicación realiza comprobaciones de sesiones para garantizar que solo los usuarios autenticados puedan acceder y crear publicaciones.
-- **Shared Preferences**: Se utiliza Shared Preferences para almacenar información localmente, como el estado de la sesión del usuario.
+- **Create new posts**: Users can create new posts by providing a title and content for the post.
+- **Input validation**: The application performs real-time validations to ensure that the title does not exceed 15 characters and that the content does not exceed 255 characters.
+- **Save posts**: Once users complete the post information, they can save it, and a listener will notify when it has been successfully saved.
+- **Intuitive user interface**: The user interface is designed using XML for view development, following the principles of Material Design to provide a modern and consistent user experience.
+- **MVVM architecture**: The application follows the MVVM architecture, allowing a clear separation of responsibilities and facilitating code maintenance and scalability.
+- **Firebase Firestore**: Firebase Firestore is used as a cloud database to store and synchronize user posts.
+- **Firebase Authentication**: Firebase Authentication is used to allow users to authenticate in the application using their email and password.
+- **Session checking**: The application performs session checks to ensure that only authenticated users can access and create posts.
+- **Shared Preferences**: Shared Preferences are used to store information locally, such as the user's session state.
 
-## Tecnologías utilizadas
+## Technologies Used
 
-- Kotlin: El lenguaje de programación principal utilizado para desarrollar la aplicación.
-- Android Jetpack: Se utiliza el componente ViewModel de Android Jetpack para implementar la arquitectura MVVM y gestionar el ciclo de vida de las actividades y fragmentos.
-- Data Binding: Se utiliza Data Binding para enlazar los datos del modelo de vista con la interfaz de usuario de manera declarativa.
-- XML: Se utiliza XML para el desarrollo de vistas y definir la interfaz de usuario de la aplicación.
-- Firebase Firestore: Se utiliza Firebase Firestore como base de datos en la nube para almacenar y sincronizar las publicaciones de los usuarios.
-- Firebase Authentication: Se utiliza Firebase Authentication para permitir a los usuarios autenticarse en la aplicación utilizando su correo electrónico y contraseña.
-- Shared Preferences: Se utiliza Shared Preferences para almacenar información localmente, como el estado de la sesión del usuario.
-- BottomSheetDialogFragment: Se utiliza BottomSheetDialogFragment para mostrar el fragmento de creación de nuevas publicaciones en la parte inferior de la pantalla.
-- Material Design: La aplicación sigue los principios de Material Design para ofrecer una experiencia de usuario moderna y coherente.
+- Kotlin: The main programming language used to develop the application.
+- Android Jetpack: Android Jetpack's ViewModel component is used to implement the MVVM architecture and manage the lifecycle of activities and fragments.
+- Data Binding: Data Binding is used to declaratively bind the view model data to the user interface.
+- XML: XML is used for view development and defining the application's user interface.
+- Firebase Firestore: Firebase Firestore is used as a cloud database to store and synchronize user posts.
+- Firebase Authentication: Firebase Authentication is used to allow users to authenticate in the application using their email and password.
+- Shared Preferences: Shared Preferences are used to store information locally, such as the user's session state.
+- BottomSheetDialogFragment: BottomSheetDialogFragment is used to display the new post creation fragment at the bottom of the screen.
+- Material Design: The application follows the principles of Material Design to provide a modern and consistent user experience.
 
-## Requisitos de instalación
+## Installation Requirements
 
-- Android Studio: Se requiere Android Studio para compilar y ejecutar la aplicación en un emulador o dispositivo Android.
-- Dispositivo Android o Emulador: Se requiere un dispositivo Android o un emulador para ejecutar la aplicación.
+- Android Studio: Android Studio is required to compile and run the application on an emulator or Android device.
+- Android Device or Emulator: An Android device or emulator is required to run the application.
 
-## Instrucciones de compilación
+## Build Instructions
 
-1. Clona el repositorio de MyBlogApp en tu máquina local.
-2. Abre Android Studio y selecciona "Open an existing Android Studio project".
-3. Navega hasta la ubicación donde clonaste el repositorio y selecciona la carpeta del proyecto.
-4. Espera a que Android Studio importe y construya el proyecto.
-5. Conecta un dispositivo Android o inicia un emulador.
-6. Haz clic en el botón "Run" en Android Studio para compilar y ejecutar la aplicación en el dispositivo o emulador seleccionado.
+1. Clone the MyBlogApp repository on your local machine.
+2. Open Android Studio and select "Open an existing Android Studio project."
+3. Navigate to the location where you cloned the repository and select the project folder.
+4. Wait for Android Studio to import and build the project.
+5. Connect an Android device or start an emulator.
+6. Click the "Run" button in Android Studio to compile and run the application on the selected device or emulator.
 
-## Contribución
+## Contribution
 
-Si deseas contribuir a MyBlogApp, sigue estos pasos:
+If you would like to contribute to MyBlogApp, follow these steps:
 
-1. Haz un fork del repositorio.
-2. Crea una rama con una descripción clara de la función o corrección que deseas realizar.
-3. Realiza los cambios en tu rama y realiza commits con mensajes descriptivos.
-4. Haz un push de tus cambios a tu repositorio fork.
-5. Abre un pull request en el repositorio principal, describiendo los cambios realizados.
+1. Fork the repository.
+2. Create a branch with a clear description of the feature or fix you want to make.
+3. Make the changes in your branch and commit them with descriptive messages.
+4. Push your changes to your forked repository.
+5. Open a pull request on the main repository, describing the changes made.
 
+## Contact
 
-
-## Contacto
-
-Si tienes alguna pregunta o sugerencia sobre MyBlogApp, no dudes en ponerte en contacto con nosotros en pmpedrotorres@gmail.com. Estaremos encantados de ayudarte.
+If you have any questions or suggestions regarding MyBlogApp, feel free to contact us at pmpedrotorres@gmail.com. We would be delighted to assist you.
