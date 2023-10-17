@@ -32,4 +32,6 @@
     <string name="divider">---</string>
     <string name="ali_connors">Ali Connors</string>
     <string name="user_not_found">User not found</string>
-    <string name="welcome_message">Welcome, %s!</string></resources>
+    <string name="welcome_message">Welcome, %s!</string>
+    <string name="back_button">back_button</string>
+</resources>

@@ -1,72 +1,82 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="20dp"
-    android:gravity="end"
-    android:orientation="vertical"
-    android:paddingHorizontal="20dp"
-    android:paddingVertical="30dp"
+    app:cardBackgroundColor="#1E1A2E"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="10dp"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     tools:context=".view.NewPostFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/new_post"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:textStyle="bold" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/title_txt"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:hint="@string/title"
-        android:nextFocusDown="@id/content_txt"
-        app:counterEnabled="true"
-        app:counterMaxLength="15">
+        android:gravity="end"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="30dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/title_event"
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/new_post"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/title_txt"
+            style="@style/TextInputLayoutStyle"
+            android:layout_marginTop="20dp"
+            android:hint="@string/title"
+            android:nextFocusDown="@id/content_txt"
+            app:counterEnabled="true"
+            app:counterMaxLength="15"
+            app:counterTextColor="@color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/title_event"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:textColor="@color/white"
+                android:textColorHint="#8D6E63" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/content_txt"
+            style="@style/TextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
-            android:textColorHint="#8D6E63" />
+            android:layout_marginTop="20dp"
+            android:hint="@string/content"
+            android:nextFocusDown="@id/save_btn"
+            app:counterEnabled="true"
+            app:counterMaxLength="255"
+            app:counterTextColor="@color/white">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/content_event"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:imeOptions="actionDone"
+                android:textColor="@color/white"
+                android:textColorHint="#8D6E63" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/content_txt"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:hint="@string/content"
-        android:nextFocusDown="@id/save_btn"
-        app:counterEnabled="true"
-        app:counterMaxLength="255">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/content_event"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:imeOptions="actionDone"
-            android:textColorHint="#8D6E63" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/save_btn"
+            style="@style/MaterialButtonStyle"
+            android:layout_marginTop="20dp"
+            android:text="@string/publish_post" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/save_btn"
-        style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/publish_post" />
-
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>
