@@ -1,7 +1,10 @@
 package com.example.myblogapp.view
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -9,7 +12,6 @@ import com.example.myblogapp.R
 import com.example.myblogapp.databinding.ActivitySignInBinding
 import com.example.myblogapp.domain.data.PreferenceManager
 import com.example.myblogapp.viewModel.SignInViewModel
-
 
 class SignInActivity : AppCompatActivity() {
 
@@ -24,6 +26,11 @@ class SignInActivity : AppCompatActivity() {
         setContentView(binding.root)
         setListeners()
         verifyLogin()
+    }
+
+    private fun hideKeyboard() {
+        val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
     }
 
     private fun verifyLogin() {
@@ -50,6 +57,17 @@ class SignInActivity : AppCompatActivity() {
 
         binding.loginBtn.setOnClickListener {
             performLogin()
+        }
+
+        binding.rootLayout.setOnClickListener {
+
+            hideKeyboard()
+
+            binding.emailTxt.editText?.clearFocus()
+            binding.passwordTxt.editText?.clearFocus()
+
+            currentFocus?.clearFocus()
+
         }
     }
 

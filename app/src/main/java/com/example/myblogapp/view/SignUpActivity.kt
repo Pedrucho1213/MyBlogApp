@@ -1,12 +1,13 @@
 package com.example.myblogapp.view
 
+import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.myblogapp.databinding.ActivitySignUpBinding
 import com.example.myblogapp.domain.data.PreferenceManager
@@ -21,12 +22,15 @@ class SignUpActivity : AppCompatActivity() {
         ViewModelProvider(this)[SignUpViewModel::class.java]
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setListeners()
+    }
+
+    private fun setValidator(){
+        binding.fullNameTxt
     }
 
     private fun setListeners() {
@@ -37,7 +41,25 @@ class SignUpActivity : AppCompatActivity() {
         binding.backBtn.setOnClickListener {
             onBackPressed()
         }
+
+        binding.rootLayout.setOnClickListener {
+            hideKeyboard()
+            binding.emailTxt.editText?.clearFocus()
+            binding.fullNameTxt.editText?.clearFocus()
+            binding.passwordTxt.editText?.clearFocus()
+            binding.confirmPassTxt.editText?.clearFocus()
+
+            currentFocus?.clearFocus()
+        }
     }
+
+    private fun hideKeyboard() {
+        val inputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+
+    }
+
 
     private fun registerUser() {
         val email = binding.emailTxt.editText?.text.toString()
@@ -58,6 +80,7 @@ class SignUpActivity : AppCompatActivity() {
                 makeToast("The user is already registered")
                 Log.i("Error", "The user is already registered")
             }
+
             else -> {
                 makeToast("An error has occurred")
                 Log.i("Error", "An error has occurred ${exception.toString()}")
