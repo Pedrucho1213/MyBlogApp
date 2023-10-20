@@ -5,6 +5,7 @@
     android:layout_marginHorizontal="5dp"
     android:layout_marginVertical="10dp"
     android:layout_height="wrap_content"
+    style="@style/Widget.Material3.CardView.Filled"
     android:background="?attr/selectableItemBackground"
     app:cardElevation="2dp">
 
@@ -47,7 +48,6 @@
             android:layout_marginTop="10dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             android:text="@string/brunch_this_weekend"
-            android:textColor="@color/black"
             android:textStyle="bold" />
 
         <TextView

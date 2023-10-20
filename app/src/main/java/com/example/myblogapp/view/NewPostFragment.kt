@@ -1,5 +1,8 @@
 package com.example.myblogapp.view
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,11 +10,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.myblogapp.databinding.FragmentNewPostBinding
 import com.example.myblogapp.view.interfaces.OnPostSavedListener
 import com.example.myblogapp.viewModel.PostViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.textfield.TextInputLayout
 
 class NewPostFragment : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentNewPostBinding
@@ -27,31 +32,43 @@ class NewPostFragment : BottomSheetDialogFragment() {
     }
 
     private fun inputValidations() {
+        val title = binding.titleTxt.editText?.text
+        val content = binding.contentTxt.editText?.text
+
+        validateInput(title, binding.titleTxt, 25, "title")
+        validateInput(content, binding.contentTxt, 255, "content")
+
         binding.titleEvent.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // TODO
+                validateInput(s, binding.titleTxt, 25, "title")
+                validateInput(binding.contentTxt.editText?.text, binding.contentTxt, 255, "content")
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // TODO
+                validateInput(s, binding.titleTxt, 25, "title")
+                validateInput(binding.contentTxt.editText?.text, binding.contentTxt, 255, "content")
             }
 
             override fun afterTextChanged(s: Editable?) {
-                validateTitle(s)
+                validateInput(s, binding.titleTxt, 25, "title")
+                validateInput(binding.contentTxt.editText?.text, binding.contentTxt, 255, "content")
             }
         })
 
         binding.contentEvent.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // TODO
+                validateInput(s, binding.contentTxt, 255, "content")
+                validateInput(binding.titleTxt.editText?.text, binding.titleTxt, 25, "title")
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // TODO
+                validateInput(s, binding.contentTxt, 255, "content")
+                validateInput(binding.titleTxt.editText?.text, binding.titleTxt, 25, "title")
             }
 
             override fun afterTextChanged(s: Editable?) {
-                validateContent(s)
+                validateInput(s, binding.contentTxt, 255, "content")
+                validateInput(binding.titleTxt.editText?.text, binding.titleTxt, 25, "title")
             }
         })
 
@@ -64,33 +81,42 @@ class NewPostFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun validateTitle(s: CharSequence?) {
-        val maxLength = 15
+    private fun validateInput(
+        s: CharSequence?,
+        inputEvent: TextInputLayout,
+        maxLength: Int,
+        inputType: String
+    ) {
         if ((s?.length ?: 0) > maxLength) {
-            binding.titleEvent.error = "The title must be no longer than $maxLength characters"
+            inputEvent.error = "The $inputType must be no longer than $maxLength characters"
+            binding.saveBtn.isEnabled = false
+        } else if (s?.isEmpty() == true || s?.trim()?.length == 0) {
+            inputEvent.error = "The $inputType must be not empty"
             binding.saveBtn.isEnabled = false
         } else {
-            binding.titleEvent.error = null
-            binding.saveBtn.isEnabled = true
-        }
-    }
-
-    private fun validateContent(s: CharSequence?) {
-        val maxLength = 255
-        if ((s?.length ?: 0) > maxLength) {
-            binding.contentEvent.error = "The content must be no longer than $maxLength characters"
-            binding.saveBtn.isEnabled = false
-        } else {
-            binding.contentEvent.error = null
+            inputEvent.error = null
             binding.saveBtn.isEnabled = true
         }
     }
 
     private fun saveBtn() {
-        val title = binding.titleTxt.editText?.text.toString()
-        val content = binding.contentTxt.editText?.text.toString()
-        onPostSavedListener?.onPostSaved(title, content)
-        dismiss()
+        if (isNetworkAvailable(requireContext())) {
+            val title = binding.titleTxt.editText?.text.toString()
+            val content = binding.contentTxt.editText?.text.toString()
+            onPostSavedListener?.onPostSaved(title, content)
+            dismiss()
+        } else {
+            binding.saveBtn.isEnabled = false
+            Toast.makeText(requireContext(), "No internet connection !!!", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun isNetworkAvailable(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkCapabilities =
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        return networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
     }
 
     override fun onCreateView(

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#2a2739"
+    android:id="@+id/root_layout"
     tools:context=".view.HomeActivity">
 
     <LinearLayout
@@ -27,10 +28,6 @@
             android:background="@drawable/searchview_background"
             android:queryHint="@string/search_by_author_title_or_content"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0"
             app:searchHintIcon="@color/white" />
 
@@ -49,8 +46,9 @@
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/new_post_btn"
-        style="@style/MaterialButtonStyle"
+        style="@style/Widget.Material3.ExtendedFloatingActionButton.Icon.Primary"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:contentDescription="@string/new_post"
@@ -65,7 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="#70edde"
+        style="@style/ThemeOverlay.Material3.BottomAppBar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -29,10 +29,6 @@ class SignUpActivity : AppCompatActivity() {
         setListeners()
     }
 
-    private fun setValidator(){
-        binding.fullNameTxt
-    }
-
     private fun setListeners() {
         binding.signUpBtn.setOnClickListener {
             validateInputs()

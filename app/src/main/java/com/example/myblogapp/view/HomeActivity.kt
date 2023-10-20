@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.net.NetworkInfo
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -40,18 +40,26 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
     }
 
     override fun onPostSaved(title: String, content: String) {
-        val name = PreferenceManager.getName(this).toString()
-        val uid = PreferenceManager.getUID(this)
-        val time = Timestamp.now()
-        val post = Posts(title, name, uid, content, time)
-        viewModel.sendData(post)
-        getAllData()
+        if (isNetworkAvailable()) {
+            val name = PreferenceManager.getName(this).toString()
+            val uid = PreferenceManager.getUID(this)
+            val time = Timestamp.now()
+            val post = Posts(title, name, uid, content, time)
+            viewModel.sendData(post)
+            getAllData()
+        } else {
+            handleInternetConnection()
+        }
+
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
         showLogoutConfirmDialog()
     }
+
+
+
     private fun getAllData() {
         posts.clear()
         viewModel.fetchPostData().observe(this) {
@@ -83,6 +91,18 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
                 else -> false
             }
         }
+        binding.rootLayout.setOnClickListener {
+            hideKeyboard()
+            binding.searchTxt.clearFocus()
+            currentFocus?.clearFocus()
+        }
+    }
+
+    private fun hideKeyboard() {
+        val inputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+
     }
 
     private fun showNewPostFragment() {
@@ -149,8 +169,10 @@ class HomeActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
     }
 
     private fun isNetworkAvailable(): Boolean {
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkCapabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        val connectivityManager =
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkCapabilities =
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
         return networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
     }
 

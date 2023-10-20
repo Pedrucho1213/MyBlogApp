@@ -80,7 +80,6 @@ class SignInActivity : AppCompatActivity() {
                 if (result.isSuccessful) {
                     PreferenceManager.setLogIn(this, true)
                     getUserData(email)
-                    redirectToHomePage()
                 } else {
                     Toast.makeText(this, R.string.user_not_found, Toast.LENGTH_LONG).show()
                 }
@@ -94,6 +93,7 @@ class SignInActivity : AppCompatActivity() {
                 PreferenceManager.saveUID(this, user.uid.toString())
                 PreferenceManager.saveName(this, user.fullName.toString())
                 PreferenceManager.saveEmail(this, email)
+                redirectToHomePage()
             }
         }
     }
